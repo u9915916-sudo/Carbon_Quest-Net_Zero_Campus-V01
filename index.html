@@ -1,0 +1,221 @@
+import {
+  BookOpen,
+  CarFront,
+  Coffee,
+  BedDouble,
+  Monitor,
+  LightbulbOff,
+  Trash2,
+  Droplets,
+  AirVent,
+  ShoppingBag,
+  LucideIcon
+} from 'lucide-react';
+
+export type ClueId = string;
+export type SceneId = 'classroom' | 'dormitory' | 'store' | 'library' | 'parking';
+
+export interface QuizOption {
+  text: string;
+  isCorrect: boolean;
+  feedback: string;
+}
+
+export interface Quiz {
+  question: string;
+  options: QuizOption[];
+}
+
+export interface Clue {
+  id: ClueId;
+  name: string;
+  icon: LucideIcon;
+  position: { x: number; y: number }; // Percentage 0-100
+  size: number;
+  description: string;
+  quiz: Quiz;
+}
+
+export interface Scene {
+  id: SceneId;
+  name: string;
+  bgClass: string;
+  completedBgClass: string;
+  color: string;
+  description: string;
+  clues: Clue[];
+}
+
+export const SCENES: Record<SceneId, Scene> = {
+  classroom: {
+    id: 'classroom',
+    name: '520 教室',
+    bgClass: 'bg-orange-800/20',
+    completedBgClass: 'bg-green-800/20',
+    color: 'text-orange-500',
+    description: '空無一人的教室，卻傳來冷氣運轉與嗡嗡的電流聲...',
+    clues: [
+      {
+        id: 'c1',
+        name: '未關閉的冷氣',
+        icon: AirVent,
+        position: { x: 75, y: 30 },
+        size: 32,
+        description: '冷氣溫度設定在極致的 18 度，且沒有人在教室裡！',
+        quiz: {
+          question: '發現浪費能源：無人教室冷氣大開！身為減碳探險家，你該怎麼做？',
+          options: [
+            { text: '讓它繼續開著，下一堂課的人進來才會涼', isCorrect: false, feedback: '錯誤！這樣會消耗大量電力，增加碳排放。' },
+            { text: '隨手關閉冷氣電源，並宣導離開前檢查', isCorrect: true, feedback: '正確！隨手關閉電源是節能基本功，積少成多能減少極大碳排。' },
+            { text: '把溫度調高到 20 度就好', isCorrect: false, feedback: '錯誤！沒人的地方根本不需要開冷氣哦！' }
+          ]
+        }
+      },
+      {
+        id: 'c2',
+        name: '沒關的燈管',
+        icon: LightbulbOff,
+        position: { x: 40, y: 15 },
+        size: 32,
+        description: '大白天採光良好，但教室的所有日光燈都開著。',
+        quiz: {
+          question: '白天陽光充足，教室卻燈火通明。你該如何處理？',
+          options: [
+            { text: '拉上窗簾，繼續開燈', isCorrect: false, feedback: '錯誤！應該多利用自然採光。' },
+            { text: '關閉靠窗與不需要的燈具，善用自然採光', isCorrect: true, feedback: '正確！利用自然光不僅節能，還有助生理時鐘平衡。' }
+          ]
+        }
+      }
+    ]
+  },
+  dormitory: {
+    id: 'dormitory',
+    name: '學生宿舍',
+    bgClass: 'bg-indigo-800/20',
+    completedBgClass: 'bg-green-800/20',
+    color: 'text-indigo-400',
+    description: '你室友的座位看起來像個耗電怪獸...',
+    clues: [
+      {
+        id: 'd1',
+        name: '沒關機的電腦',
+        icon: Monitor,
+        position: { x: 20, y: 60 },
+        size: 32,
+        description: '桌上型電腦掛網了一整天，螢幕還亮著。',
+        quiz: {
+          question: '電腦不用時整晚沒關機，會造成什麼影響？如何改善？',
+          options: [
+            { text: '只是進入待機模式，很省電沒關係', isCorrect: false, feedback: '進入待機模式仍會產生持續的隱形耗電。' },
+            { text: '長時間不用應關機，並拔除插頭或使用獨立開關延長線', isCorrect: true, feedback: '完全正確！「待機電力」佔家庭用電約 10%，拔掉插頭最能徹底省電。' }
+          ]
+        }
+      },
+      {
+        id: 'd2',
+        name: '異常漏水的水龍頭',
+        icon: Droplets,
+        position: { x: 80, y: 70 },
+        size: 32,
+        description: '浴室裡的水龍頭滴滴答答地漏著水。',
+        quiz: {
+          question: '發現學校水龍頭漏水，最好的處理方式是？',
+          options: [
+            { text: '趕緊通報總務處報修，並在修好前盡量墊布或接水', isCorrect: true, feedback: '正確！一滴滴漏水一天可能會浪費幾十公升的水資源，而處理水也需要耗費能源！' },
+            { text: '當作沒看到，反正學校會付水費', isCorrect: false, feedback: '水資源浪費也會影響全體環境，且淨水與送水過程皆有碳排放。' }
+          ]
+        }
+      }
+    ]
+  },
+  store: {
+    id: 'store',
+    name: '綠園福利社',
+    bgClass: 'bg-amber-800/20',
+    completedBgClass: 'bg-green-800/20',
+    color: 'text-amber-500',
+    description: '中午大排長龍，大家手裡拿著各種餐點與飲料。',
+    clues: [
+      {
+        id: 's1',
+        name: '氾濫的塑膠袋與免洗餐具',
+        icon: ShoppingBag,
+        position: { x: 50, y: 55 },
+        size: 40,
+        description: '垃圾桶裡塞滿了剛用完一次就被丟棄的塑膠袋與紙杯。',
+        quiz: {
+          question: '購買午餐時，為了達到淨零綠生活，你應該？',
+          options: [
+            { text: '自備環保餐具、環保杯與環保袋購物', isCorrect: true, feedback: '正確！源頭減量是減少碳足跡與塑膠微粒污染的根本之道。' },
+            { text: '盡量拿免洗餐具，用完再丟資源回收就好', isCorrect: false, feedback: '錯！回收過程中仍然會產生碳排，且許多免洗餐具含有塑膠淋膜不易回收。' }
+          ]
+        }
+      },
+      {
+        id: 's2',
+        name: '沒吃完的便當',
+        icon: Trash2,
+        position: { x: 25, y: 80 },
+        size: 32,
+        description: '廚餘桶快滿出來了，很多便當只吃了一半。',
+        quiz: {
+          question: '大量的廚餘對環境有什麼影響？如何改善？',
+          options: [
+            { text: '廚餘會自動分解沒有影響，多買點吃不完就算了', isCorrect: false, feedback: '食物浪費背後代表著生產製造時的資源浪費，且廚餘處理會產生溫室氣體。' },
+            { text: '點餐時只點吃得完的份量，珍惜食物（光盤行動）', isCorrect: true, feedback: '正確！減少食物浪費是IPCC認證有效降低溫室氣體排放的重要方法。' }
+          ]
+        }
+      }
+    ]
+  },
+  library: {
+    id: 'library',
+    name: '圖書館',
+    bgClass: 'bg-blue-800/20',
+    completedBgClass: 'bg-green-800/20',
+    color: 'text-blue-500',
+    description: '滿滿的書香氣息，但有些細節可以更環保。',
+    clues: [
+      {
+        id: 'l1',
+        name: '單面列印的廢紙',
+        icon: BookOpen,
+        position: { x: 65, y: 60 },
+        size: 32,
+        description: '回收箱裡有許多只印了單面的紙張，背面完全空白。',
+        quiz: {
+          question: '在學校列印報告時，為了減少樹木砍伐與造紙碳排，應如何做？',
+          options: [
+            { text: '設定雙面列印，並將單面廢紙收集作計算紙', isCorrect: true, feedback: '正確！紙張雙面使用能減少50%用紙量，也是校園減碳的一大步。' },
+            { text: '不管它，紙張本來就會回收', isCorrect: false, feedback: '回收造紙同樣需要消耗大量水和能源，最好是從源頭減量！' }
+          ]
+        }
+      }
+    ]
+  },
+  parking: {
+    id: 'parking',
+    name: '機車停車場',
+    bgClass: 'bg-gray-800/20',
+    completedBgClass: 'bg-green-800/20',
+    color: 'text-gray-400',
+    description: '放學時間，一群人聚集在這裡聊天。',
+    clues: [
+      {
+        id: 'p1',
+        name: '怠速未熄火的機車',
+        icon: CarFront,
+        position: { x: 45, y: 40 },
+        size: 40,
+        description: '有同學正在等人，機車發動著停在原地超過 5 分鐘，排出陣陣廢氣。',
+        quiz: {
+          question: '機車停車等候時未熄火，對環境有何影響？',
+          options: [
+            { text: '引擎怠速不僅耗油，還會排放一氧化碳等空污與溫室氣體', isCorrect: true, feedback: '非常正確！停車怠速超過 3 分鐘應熄火，除了減碳還能避免空污裁罰。如果距離不遠，多搭大眾運輸或騎自行車更好！' },
+            { text: '這樣引擎比較不會壞，而且排放量很少沒關係', isCorrect: false, feedback: '錯誤！怠速燃燒不完全會產生更多有害物質，且積少成多會加劇氣候暖化。' }
+          ]
+        }
+      }
+    ]
+  }
+};
